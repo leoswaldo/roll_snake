@@ -28,44 +28,48 @@
 # 9 10 11 12
 # 13 14 15 16
 
-# Test scenarios
 
+def roll_snake(matrix, matrix_width):
+    # We'll iterate just a half, since there is one way to the right(i) and one
+    # way the left, that make us itereate the half. (plus one in case the width
+    # is an odd number)
+    matrix_width_limit = int((matrix_width / 2) + 1)
+
+    position = 0
+    snake_output = ''
+
+    for i in range(1, matrix_width_limit + 1):
+        #right
+        position = (i * matrix_width) - matrix_width + (i - 1)
+        for j in range(0, matrix_width - ((i - 1) * 2)):
+            snake_output += (" " + matrix[position + j])
+
+        #down
+        position = (i * matrix_width) - i
+        for j in range(0, matrix_width - ((i - 1) * 2) - 1):
+            snake_output += (" " + matrix[position + ((j + 1) * matrix_width)])
+
+        #left
+        position = (matrix_width * matrix_width) -\
+            (matrix_width * (i - 1)) - i
+        for j in range(0, matrix_width - ((i - 1) * 2) - 1):
+            snake_output += (" " + matrix[position - (j + 1)])
+
+        #up
+        position = (matrix_width * matrix_width) -\
+            (i * matrix_width) + (i - 1)
+        for j in range(0, matrix_width - (i * 2)):
+            snake_output += (" " + matrix[position - ((j + 1) * matrix_width)])
+
+    return snake_output
+
+
+# Test scenarios
 matrix = [str(n) for n in range(1, 37)]
 matrix_width = 6
 '''
 matrix = [str(n) for n in range(1, 26)]
 matrix_width = 5
 '''
-position = 0
-snake_output = ''
-
-# We'll iterate just a half, since there is one way to the right(i) and one
-# way the left, that make us itereate the half. (plus one in case the width
-# is an odd number)
-matrix_width_limit = int((matrix_width / 2) + 1)
-
-for i in range(1, matrix_width_limit + 1):
-    #right
-    position = (i * matrix_width) - matrix_width + (i - 1)
-    for j in range(0, matrix_width - ((i - 1) * 2)):
-        snake_output += (" " + matrix[position + j])
-
-    #down
-    position = (i * matrix_width) - i
-    for j in range(0, matrix_width - ((i - 1) * 2) - 1):
-        snake_output += (" " + matrix[position + ((j + 1) * matrix_width)])
-
-    #left
-    position = (matrix_width * matrix_width) -\
-        (matrix_width * (i - 1)) - i
-    for j in range(0, matrix_width - ((i - 1) * 2) - 1):
-        snake_output += (" " + matrix[position - (j + 1)])
-
-    #up
-    position = (matrix_width * matrix_width) -\
-        (i * matrix_width) + (i - 1)
-    for j in range(0, matrix_width - (i * 2)):
-        snake_output += (" " + matrix[position - ((j + 1) * matrix_width)])
-
 #finally we print the snake
-print(snake_output)
+print(roll_snake(matrix, matrix_width))
